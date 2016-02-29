@@ -1,9 +1,7 @@
 require 'test_helper'
 
-class Ngx::ConfigTest < Minitest::Test
-  context 'config' do
-    should 'have a version number' do
-      refute_nil ::Ngx::Config::VERSION
-    end
+describe Ngx::Config do
+  it 'has a version number' do
+    Ngx::Config::VERSION.wont_be_nil
   end
 end
