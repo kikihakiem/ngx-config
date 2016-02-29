@@ -12,6 +12,15 @@ describe Ngx::Config do
         subject.children.first.name.must_equal 'foo'
       end
     end
+
+    describe 'when parse directive with value' do
+      let(:str) { 'foo bar;' }
+
+      it 'returns child with its name and value' do
+        subject.children.first.name.must_equal 'foo'
+        subject.children.first.value.must_equal 'bar'
+      end
+    end
   end
 
 end
