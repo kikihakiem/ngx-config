@@ -10,6 +10,8 @@ module Ngx
 
       tree = parser.parse(str)
       transformer.apply(tree)
+    rescue Parslet::ParseFailed => error
+      puts error.cause.ascii_tree
     end
   end
 end

@@ -1,11 +1,15 @@
 module Ngx
   module Config
     class Directive
-      attr_accessor :name, :value
+      attr_accessor :name, :values
 
-      def initialize(name, value = nil)
+      def initialize(name, values = nil)
         @name = name
-        @value = value
+        @values = values
+      end
+
+      def value
+        @values.first
       end
     end
   end
