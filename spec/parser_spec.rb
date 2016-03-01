@@ -31,6 +31,33 @@ describe Ngx::Config do
         subject.first.values.last.must_equal 'baz'
       end
     end
+
+    describe 'when theres multiple directives' do
+      describe 'on different lines' do
+        let(:str) {
+          %{
+            foo bar baz;
+            beep bob;
+          }
+        }
+
+        it 'returns directives' do
+          subject.size.must_equal 2
+          subject.last.name.must_equal 'beep'
+          subject.last.values.first.must_equal 'bob'
+        end
+      end
+
+      describe 'on same line' do
+        let(:str) { 'foo bar baz;beep bob;' }
+
+        it 'returns directives' do
+          subject.size.must_equal 2
+          subject.last.name.must_equal 'beep'
+          subject.last.values.first.must_equal 'bob'
+        end
+      end
+    end
   end
 
 end
