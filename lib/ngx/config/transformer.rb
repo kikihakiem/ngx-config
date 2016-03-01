@@ -1,14 +1,14 @@
 require 'parslet'
-require_relative 'node'
+require_relative 'directive'
 
 module Ngx
   module Config
     class Transformer < Parslet::Transform
       rule(directive: { name: simple(:name) }) {
-        Node.new(name, nil)
+        Directive.new(name)
       }
       rule(directive: { name: simple(:name), value: simple(:value) }) {
-        Node.new(name, value)
+        Directive.new(name, value)
       }
     end
   end

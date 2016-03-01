@@ -1,7 +1,6 @@
 require 'ngx/config/version'
 require 'ngx/config/parser'
 require 'ngx/config/transformer'
-require 'ngx/config/node'
 
 module Ngx
   module Config
@@ -10,8 +9,7 @@ module Ngx
       transformer = Transformer.new
 
       tree = parser.parse(str)
-      root = Node.root(transformer.apply(tree))
-      root
+      transformer.apply(tree)
     end
   end
 end
