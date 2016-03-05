@@ -32,6 +32,21 @@ describe Ngx::Config do
       end
     end
 
+    describe 'when values separated by line breaks' do
+      let(:str) {
+        %{
+          foo bar
+            baz;
+        }
+      }
+
+      it 'returns directive with array of values' do
+        subject.first.values.size.must_equal 2
+        subject.first.values.first.must_equal 'bar'
+        subject.first.values.last.must_equal 'baz'
+      end
+    end
+
     describe 'when theres multiple directives' do
       describe 'on different lines' do
         let(:str) {
