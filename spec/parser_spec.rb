@@ -47,6 +47,24 @@ describe Ngx::Config do
       end
     end
 
+    describe 'when values quoted with single-quote' do
+      let(:str) { "foo 'this is a single value';" }
+
+      it 'returns directive with value' do
+        subject.first.values.size.must_equal 1
+        subject.first.values.first.must_equal 'this is a single value'
+      end
+
+      describe 'when theres escaped single-quote' do
+        let(:str) { "foo 'this is \\'a\\' single value';" }
+
+        it 'returns directive with value' do
+          subject.first.values.size.must_equal 1
+          subject.first.values.first.must_equal "this is \\'a\\' single value"
+        end
+      end
+    end
+
     describe 'when theres multiple directives' do
       describe 'on different lines' do
         let(:str) {

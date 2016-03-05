@@ -10,7 +10,8 @@ module Ngx
       rule(directive: { name: simple(:name), values: subtree(:values) }) {
         Directive.new(name, values)
       }
-      rule(value: simple(:value)) { value.to_s }
+      rule(string: simple(:string)) { string.to_s }
+      rule(value: simple(:value)) { value }
       rule(values: subtree(:values)) {
         values.is_a?(Array) ? values : [values]
       }
