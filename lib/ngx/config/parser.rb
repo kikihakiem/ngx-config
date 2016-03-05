@@ -13,7 +13,12 @@ module Ngx
           (str('\\') >> any | str("'").absent? >> any).repeat.as(:string) >>
           str("'")
       }
-      rule(:string) { single_quoted | no_quote }
+      rule(:double_quoted) {
+        str('"') >>
+          (str('\\') >> any | str('"').absent? >> any).repeat.as(:string) >>
+          str('"')
+      }
+      rule(:string) { single_quoted | double_quoted | no_quote }
       rule(:value) { string }
 
       rule(:directive) {

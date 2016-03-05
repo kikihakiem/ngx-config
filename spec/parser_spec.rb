@@ -25,25 +25,25 @@ describe Ngx::Config do
     describe 'when directive has multiple values' do
       let(:str) { 'foo bar baz;' }
 
-      it 'returns directive with array of values' do
+      it 'returns directive with all the values' do
         subject.first.values.size.must_equal 2
         subject.first.values.first.must_equal 'bar'
         subject.first.values.last.must_equal 'baz'
       end
-    end
 
-    describe 'when values separated by line breaks' do
-      let(:str) {
-        %{
-          foo bar
-            baz;
+      describe 'when values separated by line breaks' do
+        let(:str) {
+          %{
+            foo bar
+              baz;
+          }
         }
-      }
 
-      it 'returns directive with array of values' do
-        subject.first.values.size.must_equal 2
-        subject.first.values.first.must_equal 'bar'
-        subject.first.values.last.must_equal 'baz'
+        it 'returns directive with all the values' do
+          subject.first.values.size.must_equal 2
+          subject.first.values.first.must_equal 'bar'
+          subject.first.values.last.must_equal 'baz'
+        end
       end
     end
 
@@ -63,9 +63,64 @@ describe Ngx::Config do
           subject.first.values.first.must_equal "this is \\'a\\' single value"
         end
       end
+
+      describe 'when theres double-quote char' do
+        let(:str) { "foo 'this is \"a\" single value';" }
+
+        it 'returns directive with value' do
+          subject.first.values.size.must_equal 1
+          subject.first.values.first.must_equal "this is \"a\" single value"
+        end
+      end
     end
 
-    describe 'when theres multiple directives' do
+    describe 'when values quoted with double-quote' do
+      let(:str) { 'foo "this is a single value";' }
+
+      it 'returns directive with value' do
+        subject.first.values.size.must_equal 1
+        subject.first.values.first.must_equal 'this is a single value'
+      end
+
+      describe 'when theres escaped double-quote' do
+        let(:str) { 'foo "value with escaped \\"double-quote\\"";' }
+
+        it 'returns directive with value' do
+          subject.first.values.size.must_equal 1
+          subject.first.values.first.must_equal 'value with escaped \\"double-quote\\"'
+        end
+      end
+
+      describe 'when theres single-quote char' do
+        let(:str) { 'foo "value with \'single-quote\'";' }
+
+        it 'returns directive with value' do
+          subject.first.values.size.must_equal 1
+          subject.first.values.first.must_equal 'value with \'single-quote\''
+        end
+      end
+
+      describe 'when there are multiple strings' do
+        let(:str) { 'foo "bar" "baz";' }
+
+        it 'returns directive with all the values' do
+          subject.first.values.size.must_equal 2
+          subject.first.values.first.must_equal 'bar'
+          subject.first.values.last.must_equal 'baz'
+        end
+      end
+
+      describe 'when theres multi-line string' do
+        let(:str) {
+          %{
+            foo "bar
+              baz";
+          }
+        }
+      end
+    end
+
+    describe 'when there are multiple directives' do
       describe 'on different lines' do
         let(:str) {
           %{
