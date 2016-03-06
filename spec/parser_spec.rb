@@ -146,6 +146,19 @@ describe Ngx::Config do
         end
       end
     end
+
+    describe 'when theres nested directive' do
+      let(:str) { 'foo { bar; }' }
+
+      it 'returns parent directive' do
+        subject.first.name.must_equal 'foo'
+      end
+
+      it 'returns child directive' do
+        subject.first.children.size.must_equal 1
+        subject.first.children.first.name.must_equal 'bar'
+      end
+    end
   end
 
 end
