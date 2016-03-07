@@ -3,7 +3,7 @@ module Ngx
     class Directive
       attr_accessor :name, :values, :children
 
-      def initialize(name, values = [], children = [])
+      def initialize(name, values, children = [])
         @name = name
         @values = values
         @children = children

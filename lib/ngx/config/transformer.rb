@@ -4,9 +4,6 @@ require_relative 'directive'
 module Ngx
   module Config
     class Transformer < Parslet::Transform
-      rule(directive: { name: simple(:name) }) {
-        Directive.new(name)
-      }
       rule(directive: { name: simple(:name), values: subtree(:values) }) {
         Directive.new(name, values)
       }

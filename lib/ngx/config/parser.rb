@@ -7,7 +7,7 @@ module Ngx
       rule(:spaces?) { spaces.maybe }
       rule(:identifier) { match('[a-zA-Z0-9_]').repeat(1) }
 
-      rule(:no_quote) { match('[\w\-\.\:\/\$]').repeat(1) }
+      rule(:no_quote) { match('[^\s\;\{\}]').repeat(1) }
       rule(:single_quoted) {
         str("'") >>
           (str('\\') >> any | str("'").absent? >> any).repeat.as(:string) >>
@@ -21,7 +21,7 @@ module Ngx
       rule(:string) { single_quoted | double_quoted | no_quote }
 
       rule(:value) { string }
-      rule(:values) { (spaces >> value.as(:value)).repeat }
+      rule(:values) { (spaces >> value.as(:value)).repeat(1) }
 
       rule(:block) {
         str('{') >> directives.as(:children).maybe >> str('}')
@@ -29,7 +29,7 @@ module Ngx
 
       rule(:directive) {
         identifier.as(:name) >>
-          values.as(:values).maybe >>
+          values.as(:values) >>
           (spaces? >> block | str(';'))
       }
       rule(:directives) {
